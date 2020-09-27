@@ -4,6 +4,9 @@ from django.core.cache import cache
 from django.db import connection
 from django.urls import resolve
 
+def get_configuration():
+    pass
+
 
 class LogSql(object):
     def __init__(self, get_response):
