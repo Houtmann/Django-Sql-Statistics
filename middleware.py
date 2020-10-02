@@ -8,7 +8,7 @@ def get_configuration():
     pass
 
 
-class LogSql(object):
+class LogSqlMiddleware(object):
     def __init__(self, get_response):
         self.get_response = get_response
 
@@ -32,17 +32,18 @@ class LogSql(object):
 
         except Exception as e:
             func_path = None
-        try:
+
+        if func_path is not None:
             queries = connection.queries.copy()
             time = 0
             number_queries = 0
-            print(queries)
+
             for tb in queries:
                 time = time + float(tb.get('time'))
                 number_queries += 1
 
             cache_value = cache.get(f'sql-stat:{func_path}')
-            print(func_path, cache_value)
+
             if cache_value is None:
                 data = {"cumulateQueriesNumbers": number_queries,
                         "cumulateTime": time,
@@ -58,7 +59,5 @@ class LogSql(object):
 
             cache.set(f"sql-stat:{func_path}", data, None)
 
-        except Exception as e:
-            pass
 
         return response
