@@ -1,3 +1,4 @@
+import operator
 from typing import OrderedDict
 
 from django.core.cache import cache
@@ -39,11 +40,11 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         show: bool = options.get("show")
-        order: str = options.get("order")
+        sort: str = options.get("sort")
         delete: bool = options.get("delete")
 
         if show:
-            show_all(order)
+            show_all(sort)
 
         if delete:
             nb_deleted_keys = delete_all()
