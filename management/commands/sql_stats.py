@@ -4,6 +4,13 @@ from typing import OrderedDict
 from django.core.cache import cache
 from django.core.management.base import BaseCommand, CommandError
 
+def write_to_csv():
+    pass
+
+def write_to_json():
+    pass
+
+
 
 def delete_all() -> int:
     cache_keys = cache.keys("sql-stat:*")
