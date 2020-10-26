@@ -16,11 +16,12 @@ def get_sort_items(sort: str) -> list:
     cache_keys: [str] = cache.keys("sql-stat:*")
     res: OrderedDict = cache.get_many(cache_keys)
     order: bool = False
+    print(sort)
     if sort == 'ASC':
         order = False
     if sort == 'DESC':
         order = True
-
+    print(order)
     sorted_by_cumulate_time = sorted(res.items(), key=res.get("cumulateTime"), reverse=order)
 
     return sorted_by_cumulate_time
@@ -47,7 +48,7 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        show_order: bool = options.get("show")
+        show_order: str = options.get("show")
         delete: bool = options.get("delete")
 
         if show_order:
