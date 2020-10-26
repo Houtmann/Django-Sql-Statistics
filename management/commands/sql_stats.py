@@ -12,11 +12,20 @@ def delete_all() -> int:
     return len(cache_keys)
 
 
-def show_all(order: str):
+def show_all(sort: str):
     cache_keys: [str] = cache.keys("sql-stat:*")
     res: OrderedDict = cache.get_many(cache_keys)
-    for line in res.items():
+    order: bool = False
+    if sort == 'ASC':
+        order = False
+    if sort == 'DESC':
+        order = True
+
+    sorted_by_cumulate_time = sorted(res.items(), key=res.get("cumulateTime"), reverse=order)
+
+    for line in sorted_by_cumulate_time:
         print(line)
+        #print(line)
 
 
 
@@ -37,6 +46,7 @@ class Command(BaseCommand):
             action='store_true',
             help='print data in console',
         )
+
 
     def handle(self, *args, **options):
         show: bool = options.get("show")
